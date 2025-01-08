@@ -33,6 +33,7 @@ resource "aws_lambda_function" "lambda" {
   environment {
     variables = {
       ConnectionString = "ignore"
+      Environment      = var.env
     }
   }
 
