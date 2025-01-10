@@ -51,3 +51,16 @@ resource "aws_iam_role_policy" "sqs_policy" {
   name   = "${var.lambda_name}-policy-${var.env}"
   policy = data.aws_iam_policy_document.sqs_policy.json
 }
+
+
+resource "aws_iam_policy" "additional_policy" {
+  for_each = { for idx, policy in var.additional_policies : idx => policy }
+  name     = "${each.value.name}-${var.env}"
+  policy   = each.value.policy
+}
+
+resource "aws_iam_role_policy_attachment" "additional_policies" {
+  for_each = aws_iam_policy.additional_policy
+  role     = aws_iam_role.lambda.name
+  policy_arn = each.value.arn
+}
