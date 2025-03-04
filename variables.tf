@@ -77,3 +77,12 @@ variable "memory_size" {
   description = "Memory size"
   default     = 256
 }
+
+variable "additional_policies" {
+  type = list(object({
+    name   = string
+    policy = string
+  }))
+  description = "Additional policies to attach to the lambda role. Object(name: string, policy: jsonencode)"
+  default = []
+}
